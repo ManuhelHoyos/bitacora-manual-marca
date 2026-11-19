@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="512" height="512">
+  <defs><linearGradient id="fondo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d1c31"/><stop offset="1" stop-color="#03060b"/></linearGradient>
+  <linearGradient id="filo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#78aaff" stop-opacity=".45"/><stop offset="1" stop-color="#78aaff" stop-opacity=".05"/></linearGradient></defs>
+  <rect x="2" y="2" width="124" height="124" rx="28" fill="url(#fondo)" stroke="url(#filo)" stroke-width="1.5"/>
+  <g transform="translate(16 14) scale(.76)">
+  <defs>
+    <linearGradient id="vf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5dffb8"/><stop offset=".55" stop-color="#1fe08f"/><stop offset="1" stop-color="#0f9e63"/></linearGradient>
+    <linearGradient id="vl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c8f58"/><stop offset="1" stop-color="#05502f"/></linearGradient>
+    <linearGradient id="vt" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b6ffe0"/><stop offset="1" stop-color="#5dffb8"/></linearGradient>
+    <linearGradient id="rf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff8a9c"/><stop offset=".55" stop-color="#ff4668"/><stop offset="1" stop-color="#c8193b"/></linearGradient>
+    <linearGradient id="rl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b3172f"/><stop offset="1" stop-color="#6a0b1b"/></linearGradient>
+    <linearGradient id="rt" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffc4cd"/><stop offset="1" stop-color="#ff8a9c"/></linearGradient>
+    <linearGradient id="brillo" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <radialGradient id="sombra" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#000" stop-opacity=".55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <filter id="resplandor" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>
+  </defs>
+  <ellipse cx="66" cy="112" rx="50" ry="7" fill="url(#sombra)"/>
+  <!-- resplandor de color detrás -->
+  <g filter="url(#resplandor)" opacity=".45"><rect x="18" y="50" width="22" height="46" fill="#1fe08f"/><rect x="52" y="22" width="22" height="58" fill="#ff4668"/><rect x="86" y="36" width="22" height="54" fill="#1fe08f"/></g>
+  <!-- vela 1 (verde) -->
+  <rect x="28" y="40" width="3" height="70" rx="1.5" fill="#0c8f58"/>
+  <polygon points="40,50 48,44 48,90 40,96" fill="url(#vl)"/>
+  <polygon points="18,50 26,44 48,44 40,50" fill="url(#vt)"/>
+  <rect x="18" y="50" width="22" height="46" rx="1.5" fill="url(#vf)"/>
+  <rect x="20.5" y="52" width="4" height="40" rx="2" fill="url(#brillo)"/>
+  <!-- vela 2 (roja) -->
+  <rect x="62" y="10" width="3" height="84" rx="1.5" fill="#b3172f"/>
+  <polygon points="74,22 82,16 82,74 74,80" fill="url(#rl)"/>
+  <polygon points="52,22 60,16 82,16 74,22" fill="url(#rt)"/>
+  <rect x="52" y="22" width="22" height="58" rx="1.5" fill="url(#rf)"/>
+  <rect x="54.5" y="24" width="4" height="52" rx="2" fill="url(#brillo)"/>
+  <!-- vela 3 (verde) -->
+  <rect x="96" y="24" width="3" height="80" rx="1.5" fill="#0c8f58"/>
+  <polygon points="108,36 116,30 116,84 108,90" fill="url(#vl)"/>
+  <polygon points="86,36 94,30 116,30 108,36" fill="url(#vt)"/>
+  <rect x="86" y="36" width="22" height="54" rx="1.5" fill="url(#vf)"/>
+  <rect x="88.5" y="38" width="4" height="48" rx="2" fill="url(#brillo)"/>
+</g>
+</svg>
