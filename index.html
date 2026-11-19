@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manual de marca · Bitácora</title>
+<link rel="icon" href="logo-plano.svg">
+<style>
+  @font-face { font-family: "Plex"; src: url("../../static/vendor/fuentes/plex-400.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Plex"; src: url("../../static/vendor/fuentes/plex-500.woff2") format("woff2"); font-weight: 500; }
+  @font-face { font-family: "Plex"; src: url("../../static/vendor/fuentes/plex-600.woff2") format("woff2"); font-weight: 600 700; }
+  @font-face { font-family: "Grotesk"; src: url("../../static/vendor/fuentes/grotesk-500.woff2") format("woff2"); font-weight: 500; }
+  @font-face { font-family: "Grotesk"; src: url("../../static/vendor/fuentes/grotesk-600.woff2") format("woff2"); font-weight: 600; }
+  @font-face { font-family: "Grotesk"; src: url("../../static/vendor/fuentes/grotesk-700.woff2") format("woff2"); font-weight: 700 800; }
+  :root { --noche: #04070d; --caja: #070c14; --musgo: #0c1420; --pizarra: #152134; --borde: #1b2a40; --tinta: #eef3f9; --tinta2: #8b9ab0;
+    --verde: #1fe08f; --rojo: #ff4668; --azul: #1fa2ff; --azul2: #2962ff; --ambar: #ffc247; --linea: #78aaff; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--noche); color: var(--tinta); font: 15px/1.55 "Plex", "Segoe UI", sans-serif; }
+  h1, h2, h3, .g-t { font-family: "Grotesk", "Plex", sans-serif; letter-spacing: -.02em; margin: 0; }
+  p { margin: 0; } a { color: var(--azul); }
+  code { font-family: inherit; font-size: 12.5px; color: var(--tinta2); font-variant-numeric: tabular-nums; }
+  .muted { color: var(--tinta2); }
+  :focus-visible { outline: 2px solid var(--azul); outline-offset: 3px; border-radius: 4px; }
+
+  /* ── Marco: índice de velas a la izquierda ── */
+  .marco { display: grid; grid-template-columns: 250px minmax(0, 1fr); }
+  .indice { position: sticky; top: 0; height: 100vh; padding: 36px 22px; border-right: 1px solid var(--borde);
+    background: linear-gradient(180deg, #050b15, var(--noche)); display: flex; flex-direction: column; gap: 28px; }
+  .indice .firma img { width: 30px; } .indice .firma b { font-size: 22px; }
+  .indice ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+  .indice a { display: flex; align-items: center; gap: 12px; padding: 7px 8px; border-radius: 8px; color: var(--tinta2); text-decoration: none; font-size: 13.5px; }
+  .indice a i { width: 7px; height: 16px; border-radius: 2px; background: var(--pizarra); position: relative; flex: none; transition: background .25s, height .25s, box-shadow .25s; }
+  .indice a i::before { content: ""; position: absolute; left: 3px; top: -5px; bottom: -5px; width: 1px; background: inherit; opacity: .7; }
+  .indice a:hover { color: var(--tinta); }
+  .indice a.on { color: var(--tinta); background: color-mix(in srgb, var(--azul) 8%, transparent); }
+  .indice a.on i { height: 20px; background: var(--verde); box-shadow: 0 0 12px var(--verde); }
+  .indice a.on.r i { background: var(--rojo); box-shadow: 0 0 12px var(--rojo); }
+  .indice small { margin-top: auto; color: var(--tinta2); font-size: 12px; }
+  main { min-width: 0; }
+  .sec { padding: 96px clamp(24px, 6vw, 96px); border-bottom: 1px solid var(--borde); scroll-margin-top: 0; }
+  .sec > header { max-width: 680px; margin-bottom: 40px; }
+  .sec h2 { font-size: clamp(32px, 4vw, 46px); line-height: 1.05; }
+  .sec h2 small { display: block; font: 500 14px "Plex"; letter-spacing: 0; color: var(--azul); margin-bottom: 10px; font-variant-numeric: tabular-nums; }
+  .sec > header p { margin-top: 14px; color: var(--tinta2); font-size: 16.5px; max-width: 62ch; }
+  h3 { font-size: 19px; margin-bottom: 8px; }
+  .g { display: grid; gap: 18px; }
+  .c2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .c3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .c4 { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+  .panel { border: 1px solid var(--borde); border-radius: 16px; background: var(--caja); padding: 26px; }
+  .panel.quieto { background: transparent; }
+  .pie { margin-top: 14px; font-size: 12.5px; color: var(--tinta2); }
+  .centro { display: grid; place-items: center; min-height: 210px; text-align: center; }
+
+  /* ── Portada ── */
+  .portada { position: relative; min-height: 100vh; padding: 72px clamp(24px, 6vw, 96px) 56px; display: grid; grid-template-rows: auto 1fr auto; overflow: hidden;
+    background: radial-gradient(900px 520px at 78% 30%, rgba(31, 162, 255, .13), transparent 70%), radial-gradient(600px 400px at 70% 75%, rgba(31, 224, 143, .08), transparent 70%); }
+  .portada .arriba { display: flex; justify-content: space-between; color: var(--tinta2); font-size: 13px; }
+  .portada .medio { display: grid; grid-template-columns: 1fr minmax(260px, 460px); align-items: center; gap: 40px; }
+  .portada h1 { font-size: clamp(64px, 10vw, 150px); line-height: .9; font-weight: 700; letter-spacing: -.045em; }
+  .portada .lema { margin-top: 26px; font: 600 clamp(20px, 2.2vw, 28px)/1.25 "Grotesk"; max-width: 22ch; }
+  .portada .lema span { color: var(--tinta2); }
+  .portada .logo3d { width: 100%; filter: drop-shadow(0 40px 60px rgba(31, 224, 143, .2)); }
+  .curva { position: absolute; left: 0; right: 0; bottom: 120px; width: 100%; height: 180px; pointer-events: none; opacity: .5; }
+  .curva path { stroke-dasharray: 2400; stroke-dashoffset: 2400; animation: dibujar 2.6s .3s cubic-bezier(.3, .7, .2, 1) forwards; }
+  @keyframes dibujar { to { stroke-dashoffset: 0; } }
+  .portada .abajo { display: flex; gap: 40px; flex-wrap: wrap; color: var(--tinta2); font-size: 13px; position: relative; }
+  .portada .abajo b { display: block; color: var(--tinta); font: 600 15px "Plex"; }
+
+  /* ── Esencia ── */
+  .mision { font: 600 clamp(26px, 3vw, 38px)/1.2 "Grotesk"; max-width: 26ch; letter-spacing: -.02em; }
+  .pilares { margin-top: 48px; }
+  .pilar b { display: block; font: 700 22px "Grotesk"; margin-bottom: 6px; }
+  .pilar .vela-mini { display: inline-block; width: 8px; height: 22px; border-radius: 2px; margin-bottom: 14px; }
+  .escala { display: grid; grid-template-columns: 130px 1fr 130px; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--borde); font-size: 14px; }
+  .escala:last-child { border: 0; }
+  .escala span:last-child { text-align: right; }
+  .riel { position: relative; height: 4px; border-radius: 99px; background: var(--pizarra); }
+  .riel i { position: absolute; top: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: var(--azul); box-shadow: 0 0 0 4px rgba(31, 162, 255, .2); }
+
+  /* ── Construcción ── */
+  .plano { position: relative; background: #050b16; background-image: linear-gradient(rgba(120, 170, 255, .08) 1px, transparent 1px), linear-gradient(90deg, rgba(120, 170, 255, .08) 1px, transparent 1px);
+    background-size: 24px 24px; border-radius: 16px; border: 1px solid var(--borde); }
+  .plano svg { display: block; width: 100%; height: auto; }
+  .medidas li { margin: 6px 0; } .medidas { color: var(--tinta2); padding-left: 18px; margin: 0; }
+  .medidas b { color: var(--tinta); }
+  .tam { display: flex; align-items: flex-end; gap: 28px; flex-wrap: wrap; }
+  .tam figure { margin: 0; display: grid; gap: 8px; justify-items: center; font-size: 12px; color: var(--tinta2); }
+
+  /* ── Firma ── */
+  .firma { display: inline-flex; align-items: center; gap: 12px; }
+  .firma img, .firma svg { width: 44px; height: 44px; } .firma b { font: 700 34px "Grotesk"; letter-spacing: -.02em; }
+  .firma.v { flex-direction: column; gap: 10px; } .firma.v b { font-size: 28px; }
+  .claro { background: #f3f6fa; color: #0b1626; border-color: #dfe6ef; } .claro .pie { color: #5a6b80; }
+  .azul-f { background: linear-gradient(135deg, #1fa2ff, #2962ff); border: 0; } .azul-f .pie { color: #e3f1ff; }
+  .zona { position: relative; padding: 40px; outline: 1px dashed rgba(120, 170, 255, .5); border-radius: 6px; }
+  .zona em { position: absolute; font-style: normal; font-size: 11px; color: var(--linea); }
+
+  /* ── Color ── */
+  .proporcion { display: flex; height: 92px; border-radius: 14px; overflow: hidden; border: 1px solid var(--borde); }
+  .proporcion div { display: flex; align-items: flex-end; padding: 10px; font-size: 12px; font-weight: 600; }
+  .muestra { border: 1px solid var(--borde); border-radius: 14px; overflow: hidden; background: var(--caja); }
+  .muestra > i { display: block; height: 120px; position: relative; }
+  .muestra > i span { position: absolute; right: 10px; bottom: 8px; font: 600 12px "Plex"; padding: 2px 7px; border-radius: 6px; background: rgba(4, 7, 13, .7); color: var(--tinta); }
+  .muestra div { padding: 14px 16px; } .muestra b { display: block; font-size: 15px; } .muestra p { font-size: 13px; color: var(--tinta2); margin-top: 4px; }
+  .muestra code { display: block; margin-top: 6px; }
+  .degradados div { height: 110px; border-radius: 14px; display: flex; align-items: flex-end; padding: 12px; font-size: 12.5px; font-weight: 600; }
+
+  /* ── Tipografía ── */
+  .especimen { font: 700 clamp(70px, 9vw, 128px)/.9 "Grotesk"; letter-spacing: -.04em; }
+  .especimen2 { font: 400 clamp(46px, 6vw, 80px)/1 "Plex"; letter-spacing: -.02em; }
+  .abc { margin-top: 18px; font-size: 18px; color: var(--tinta2); word-break: break-all; }
+  .tabla-tipo { width: 100%; border-collapse: collapse; }
+  .tabla-tipo td { padding: 14px 0; border-bottom: 1px solid var(--borde); vertical-align: baseline; }
+  .tabla-tipo td:last-child { text-align: right; color: var(--tinta2); font-size: 12.5px; white-space: nowrap; padding-left: 16px; }
+  .cifras { font: 600 30px "Plex"; font-variant-numeric: tabular-nums; line-height: 1.35; }
+
+  /* ── Iconos ── */
+  .iconos { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
+  .iconos figure { margin: 0; display: grid; justify-items: center; gap: 8px; padding: 18px 8px; border: 1px solid var(--borde); border-radius: 12px; font-size: 12px; color: var(--tinta2); }
+  .iconos svg { width: 26px; height: 26px; fill: none; stroke: var(--tinta); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ── Componentes ── */
+  .ui-dia { display: flex; align-items: center; gap: 18px; padding: 16px 20px; border-radius: 14px; border: 1px solid rgba(255, 70, 104, .45);
+    background: linear-gradient(90deg, rgba(255, 70, 104, .13), rgba(255, 70, 104, .03)); }
+  .ui-dia.ok { border-color: rgba(31, 224, 143, .45); background: linear-gradient(90deg, rgba(31, 224, 143, .12), rgba(31, 224, 143, .02)); }
+  .ui-dia .luz { width: 12px; height: 12px; border-radius: 50%; background: var(--rojo); box-shadow: 0 0 0 5px rgba(255, 70, 104, .18); }
+  .ui-dia.ok .luz { background: var(--verde); box-shadow: 0 0 0 5px rgba(31, 224, 143, .18); }
+  .ui-dia b { font: 600 22px "Grotesk"; color: var(--rojo); } .ui-dia.ok b { color: var(--verde); }
+  .ui-kpi { padding: 22px; border-radius: 14px; border: 1px solid var(--borde); background: linear-gradient(180deg, rgba(21, 33, 52, .62), rgba(12, 20, 32, .78)); }
+  .ui-kpi small { font-size: 12px; color: var(--tinta2); }
+  .ui-kpi b { display: block; font: 700 40px "Grotesk"; letter-spacing: -.02em; margin: 4px 0; font-variant-numeric: tabular-nums; }
+  .ui-trade { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--borde); border-left: 3px solid var(--verde); background: var(--musgo); }
+  .ui-trade + .ui-trade { margin-top: 8px; } .ui-trade.p { border-left-color: var(--rojo); }
+  .ui-trade b { font-size: 14px; } .ui-trade em { font-style: normal; font-size: 11px; padding: 2px 8px; border-radius: 99px; background: var(--pizarra); margin-left: 8px; color: var(--tinta2); }
+  .ui-trade .v { font: 600 16px "Plex"; font-variant-numeric: tabular-nums; color: var(--verde); } .ui-trade.p .v { color: var(--rojo); }
+  .botones { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .b { display: inline-flex; align-items: center; padding: 12px 22px; border-radius: 10px; font: 600 14.5px "Plex"; text-decoration: none; border: 1px solid transparent; }
+  .b.pri { background: var(--azul); color: #021627; } .b.sec { color: var(--tinta); border-color: var(--borde); background: var(--musgo); }
+  .b.peligro { color: var(--rojo); border-color: rgba(255, 70, 104, .4); }
+  .chip { display: inline-flex; padding: 4px 10px; border-radius: 99px; font-size: 12px; font-weight: 600; }
+
+  /* ── Gráficos ── */
+  .graf { width: 100%; height: auto; display: block; border-radius: 12px; background: var(--musgo); border: 1px solid var(--borde); }
+
+  /* ── Voz ── */
+  .lema-g { font: 700 clamp(30px, 4vw, 52px)/1.05 "Grotesk"; letter-spacing: -.03em; max-width: 18ch; }
+  .lemas { margin-top: 40px; }
+  .lemas p { font: 600 22px/1.25 "Grotesk"; } .lemas .pie { margin-top: 10px; }
+  .vocab { width: 100%; border-collapse: collapse; margin-top: 18px; font-size: 14.5px; }
+  .vocab th { text-align: left; font: 600 13px "Plex"; color: var(--tinta2); padding: 0 0 10px; }
+  .vocab td { padding: 12px 16px 12px 0; border-top: 1px solid var(--borde); vertical-align: top; }
+  .vocab td:first-child { color: var(--verde); } .vocab td:nth-child(2) { color: var(--rojo); text-decoration: line-through; text-decoration-color: rgba(255, 70, 104, .5); }
+  .micro { display: grid; gap: 10px; }
+  .micro div { padding: 14px 16px; border-radius: 12px; background: var(--musgo); border: 1px solid var(--borde); font-size: 14px; }
+  .micro small { display: block; color: var(--tinta2); font-size: 12px; margin-bottom: 4px; }
+
+  /* ── Aplicaciones ── */
+  .post { aspect-ratio: 1; border-radius: 16px; overflow: hidden; position: relative; padding: 28px; display: flex; flex-direction: column; justify-content: space-between;
+    background: radial-gradient(circle at 80% 20%, rgba(31, 162, 255, .3), transparent 55%), linear-gradient(160deg, #0b1a30, #03060b); border: 1px solid var(--borde); }
+  .post .t { font: 700 34px/1 "Grotesk"; letter-spacing: -.03em; }
+  .post .n { font: 700 64px/1 "Grotesk"; color: var(--verde); letter-spacing: -.03em; }
+  .historia { aspect-ratio: 9 / 16; max-height: 520px; border-radius: 22px; padding: 26px 22px; display: flex; flex-direction: column; gap: 14px; justify-content: space-between;
+    background: linear-gradient(180deg, #1a1306, #04070d 60%); border: 1px solid rgba(255, 194, 71, .35); }
+  .historia .t { font: 700 30px/1.05 "Grotesk"; }
+  .miniatura { aspect-ratio: 16 / 9; border-radius: 14px; position: relative; overflow: hidden; display: flex; align-items: center; gap: 18px; padding: 24px;
+    background: linear-gradient(120deg, #04070d 40%, #3a0b17); border: 1px solid var(--borde); }
+  .miniatura .t { font: 800 clamp(24px, 2.6vw, 34px)/1 "Grotesk"; letter-spacing: -.03em; text-transform: none; }
+  .miniatura .cap { position: absolute; left: 24px; top: 18px; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 99px; background: var(--ambar); color: #1a1204; }
+  .tarjeta-v { aspect-ratio: 1.75; border-radius: 12px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; background: #070c14; border: 1px solid var(--borde);
+    box-shadow: 0 24px 40px -18px rgba(0, 0, 0, .7); }
+  .tarjeta-v.atras { background: linear-gradient(135deg, #0b1a30, #04070d); align-items: center; justify-content: center; }
+  .escritorio { border-radius: 14px; overflow: hidden; border: 1px solid var(--borde); background: linear-gradient(135deg, #10305a, #071425 55%, #1a0b25); min-height: 220px; position: relative; }
+  .escritorio .barra { position: absolute; left: 0; right: 0; bottom: 0; height: 46px; background: rgba(10, 14, 22, .85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; gap: 12px; }
+  .escritorio .barra span { width: 26px; height: 26px; border-radius: 6px; background: rgba(255, 255, 255, .12); }
+  .escritorio .barra img { width: 30px; height: 30px; border-radius: 8px; box-shadow: 0 0 0 2px rgba(120, 170, 255, .35); }
+  .escritorio .acceso { position: absolute; left: 24px; top: 22px; display: grid; justify-items: center; gap: 6px; font-size: 12px; color: #fff; width: 76px; text-align: center; }
+  .escritorio .acceso img { width: 56px; }
+
+  /* ── Movimiento ── */
+  .mov { display: grid; gap: 12px; }
+  .mov div { display: grid; grid-template-columns: 170px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--borde); font-size: 14px; }
+  .mov div:last-child { border: 0; } .mov b { font-weight: 600; } .mov span { color: var(--tinta2); }
+
+  .descargas { display: grid; gap: 10px; }
+  .descargas a { display: flex; align-items: center; gap: 16px; padding: 14px 16px; border: 1px solid var(--borde); border-radius: 12px; color: var(--tinta); text-decoration: none; background: var(--caja); }
+  .descargas a:hover { border-color: rgba(31, 162, 255, .5); }
+  .descargas img { width: 44px; height: 44px; object-fit: contain; }
+  .descargas span { color: var(--tinta2); font-size: 13px; margin-left: auto; }
+
+  /* Esencia en dos columnas */
+  .esen { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr); gap: 48px; align-items: start; }
+  .manifiesto { border-left: 2px solid var(--verde); padding: 4px 0 4px 24px; display: grid; gap: 14px; font: 500 17px/1.45 "Grotesk"; color: var(--tinta2); }
+  .manifiesto b { color: var(--tinta); font-weight: 600; }
+  .idea { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 28px; border: 1px solid var(--borde); border-radius: 18px; overflow: hidden; }
+  .idea > div { padding: 30px 26px; display: grid; gap: 14px; align-content: start; border-right: 1px solid var(--borde); }
+  .idea > div:last-child { border: 0; }
+  .idea svg { width: 64px; height: 96px; }
+  .idea b { font: 700 24px "Grotesk"; }
+  .patron { height: 220px; border-radius: 16px; border: 1px solid var(--borde); background-color: #04070d;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 24 24'%3E%3Cg opacity='.16'%3E%3Crect x='3' y='8' width='4' height='10' rx='1' fill='%231fe08f'/%3E%3Crect x='10' y='4' width='4' height='12' rx='1' fill='%23ff4668'/%3E%3Crect x='17' y='6' width='4' height='12' rx='1' fill='%231fe08f'/%3E%3C/g%3E%3C/svg%3E"); }
+  .resplandor { height: 220px; border-radius: 16px; border: 1px solid var(--borde);
+    background: radial-gradient(300px 180px at 30% 40%, rgba(31, 162, 255, .35), transparent 70%), radial-gradient(260px 160px at 75% 70%, rgba(31, 224, 143, .22), transparent 70%), #04070d; }
+  .rejilla-f { height: 220px; border-radius: 16px; border: 1px solid var(--borde); background-color: #04070d;
+    background-image: linear-gradient(rgba(120, 170, 255, .09) 1px, transparent 1px), linear-gradient(90deg, rgba(120, 170, 255, .09) 1px, transparent 1px); background-size: 28px 28px;
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 30%, transparent 80%); mask-image: radial-gradient(circle at 50% 50%, #000 30%, transparent 80%); }
+  .vidrio { height: 220px; border-radius: 16px; border: 1px solid var(--borde); display: grid; place-items: center;
+    background: radial-gradient(240px 160px at 50% 0%, rgba(31, 162, 255, .3), transparent 70%), #04070d; }
+  .vidrio div { width: 70%; padding: 22px; border-radius: 14px; border: 1px solid rgba(120, 170, 255, .22);
+    background: linear-gradient(180deg, rgba(21, 33, 52, .62), rgba(12, 20, 32, .78)); }
+  .escena { position: relative; border-radius: 22px; padding: 64px 48px 0; overflow: hidden; border: 1px solid var(--borde);
+    background: radial-gradient(700px 360px at 50% 0%, rgba(31, 162, 255, .22), transparent 70%), linear-gradient(180deg, #071426, #04070d); }
+  .portatil { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
+  .portatil .pantalla { border-radius: 14px 14px 0 0; padding: 12px 12px 0; background: #0d1420; border: 1px solid #22324a; border-bottom: 0; box-shadow: 0 -20px 80px -30px rgba(31, 162, 255, .5); }
+  .portatil .pantalla img { display: block; width: 100%; border-radius: 6px 6px 0 0; }
+  .portatil .base { height: 18px; margin: 0 -40px; border-radius: 0 0 18px 18px; background: linear-gradient(180deg, #1a2638, #0a111c); }
+  .flotan { position: absolute; width: 28%; border-radius: 12px; overflow: hidden; border: 1px solid #22324a; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .8); z-index: 2; }
+  .flotan img { display: block; width: 100%; }
+  .flotan.izq { left: 2%; bottom: 30px; transform: rotate(-4deg); } .flotan.der { right: 2%; bottom: 60px; transform: rotate(3deg); }
+  .anuncio { border-radius: 14px; overflow: hidden; border: 1px solid var(--borde); background: #0b0f16; }
+  .anuncio .cab { display: flex; align-items: center; gap: 10px; padding: 12px 14px; font-size: 13px; }
+  .anuncio .cab img { width: 32px; height: 32px; border-radius: 50%; }
+  .anuncio .cab small { display: block; color: var(--tinta2); font-size: 11.5px; }
+  .anuncio .arte { aspect-ratio: 1; position: relative; overflow: hidden; padding: 26px; display: flex; flex-direction: column; justify-content: space-between;
+    background: radial-gradient(circle at 85% 15%, rgba(31, 224, 143, .25), transparent 55%), linear-gradient(160deg, #0b1a30, #03060b); }
+  .anuncio .arte.r { background: radial-gradient(circle at 85% 15%, rgba(255, 70, 104, .28), transparent 55%), linear-gradient(160deg, #1e0b12, #03060b); }
+  .anuncio .arte .t { font: 700 30px/1.02 "Grotesk"; letter-spacing: -.03em; position: relative; z-index: 1; }
+  .anuncio .arte img.pz { position: absolute; right: -30px; bottom: -10px; width: 62%; border-radius: 10px; border: 1px solid #22324a; transform: rotate(-6deg); box-shadow: 0 20px 40px rgba(0, 0, 0, .6); }
+  .anuncio .pie-a { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 14px; background: #121822; font-size: 12.5px; }
+  .anuncio .pie-a span { display: block; color: var(--tinta2); font-size: 11px; }
+  .anuncio .pie-a a { flex: none; padding: 8px 14px; border-radius: 8px; background: #2a3342; color: var(--tinta); font-weight: 600; text-decoration: none; font-size: 12.5px; }
+  .carrusel { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-radius: 14px; overflow: hidden; border: 1px solid var(--borde); }
+  .carrusel > div { aspect-ratio: 4 / 5; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; border-right: 1px dashed rgba(120, 170, 255, .25);
+    background: linear-gradient(170deg, #0b1a30, #04070d); }
+  .carrusel > div:last-child { border: 0; background: linear-gradient(170deg, #062417, #04070d); }
+  .carrusel .t { font: 700 24px/1.05 "Grotesk"; letter-spacing: -.02em; }
+  .carrusel .n { font: 600 12px "Plex"; color: var(--tinta2); }
+  .banner-yt { aspect-ratio: 6.2 / 1; border-radius: 14px; border: 1px solid var(--borde); display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 6%;
+    background: radial-gradient(400px 160px at 85% 50%, rgba(31, 224, 143, .2), transparent 70%), linear-gradient(90deg, #04070d, #0b1a30); overflow: hidden; }
+  .banner-yt .t { font: 700 clamp(18px, 2.4vw, 30px) "Grotesk"; letter-spacing: -.02em; }
+  .correo { border-radius: 12px; background: #fff; color: #1c2430; padding: 22px; font: 14px/1.5 Arial, sans-serif; }
+  .correo p { margin: 0 0 10px; }
+  .correo .firma-c { display: flex; gap: 14px; align-items: center; border-top: 1px solid #e3e8ef; padding-top: 14px; margin-top: 14px; }
+  .correo .firma-c img { width: 48px; height: 48px; }
+  .correo b { color: #0b1626; } .correo span { color: #5a6b80; font-size: 12.5px; display: block; }
+  .diapo { aspect-ratio: 16 / 9; border-radius: 12px; border: 1px solid var(--borde); padding: 7% 8%; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;
+    background: radial-gradient(500px 260px at 90% 10%, rgba(31, 162, 255, .25), transparent 70%), #04070d; }
+  .diapo .t { font: 700 clamp(22px, 3vw, 36px)/1 "Grotesk"; letter-spacing: -.03em; max-width: 13ch; }
+  .diapo img.l3 { position: absolute; right: 6%; top: 50%; width: 30%; transform: translateY(-50%); }
+  .taza, .buzo { display: grid; place-items: center; min-height: 280px; }
+  .taza .cuerpo { width: 150px; height: 170px; border-radius: 10px 10px 40px 40px; background: linear-gradient(90deg, #0a1220, #1a2a40 45%, #0a1220); position: relative;
+    display: grid; place-items: center; box-shadow: 0 30px 40px -20px rgba(0, 0, 0, .8); }
+  .taza .cuerpo::after { content: ""; position: absolute; right: -44px; top: 34px; width: 50px; height: 80px; border: 14px solid #142236; border-left: 0; border-radius: 0 40px 40px 0; }
+  .taza .cuerpo img { width: 62px; }
+  .buzo .cuerpo { width: 210px; height: 230px; position: relative; border-radius: 40px 40px 14px 14px; background: linear-gradient(180deg, #111b2b, #0a111c); display: grid; place-items: start center; padding-top: 70px;
+    box-shadow: 0 30px 40px -20px rgba(0, 0, 0, .8); }
+  .buzo .cuerpo::before, .buzo .cuerpo::after { content: ""; position: absolute; top: 24px; width: 54px; height: 170px; background: #0e1726; border-radius: 26px; z-index: -1; }
+  .buzo .cuerpo::before { left: -38px; transform: rotate(10deg); } .buzo .cuerpo::after { right: -38px; transform: rotate(-10deg); }
+  .buzo .cuello { position: absolute; top: -6px; left: 50%; width: 70px; height: 26px; margin-left: -35px; border-radius: 0 0 40px 40px; background: #050a12; }
+  .buzo .firma b { font-size: 18px; } .buzo .firma img { width: 22px; height: 22px; }
+  @media (max-width: 980px) { .esen, .idea, .carrusel { grid-template-columns: 1fr; } .flotan { display: none; } .marco { grid-template-columns: 1fr; } .indice { display: none; } .portada .medio { grid-template-columns: 1fr; } .portada .logo3d { max-width: 300px; } }
+  @media (max-width: 600px) { .escala { grid-template-columns: 90px 1fr 90px; font-size: 12.5px; } .mov div { grid-template-columns: 1fr; gap: 4px; } }
+  @media (prefers-reduced-motion: reduce) { .curva path { animation: none; stroke-dashoffset: 0; } html { scroll-behavior: auto; } }
+</style></head><body>
+<div class="marco">
+
+<aside class="indice" aria-label="Contenido del manual">
+  <span class="firma"><img src="logo-plano.svg" alt=""><b>Bitácora</b></span>
+  <ol>
+    <li><a href="#esencia"><i></i>Esencia</a></li>
+    <li><a href="#logo"><i></i>El logo</a></li>
+    <li><a href="#construccion" class="r"><i></i>Construcción</a></li>
+    <li><a href="#firma"><i></i>Versiones</a></li>
+    <li><a href="#color"><i></i>Color</a></li>
+    <li><a href="#recursos"><i></i>Recursos gráficos</a></li>
+    <li><a href="#tipografia" class="r"><i></i>Tipografía</a></li>
+    <li><a href="#iconos"><i></i>Iconos</a></li>
+    <li><a href="#interfaz"><i></i>Interfaz</a></li>
+    <li><a href="#graficos" class="r"><i></i>Gráficos</a></li>
+    <li><a href="#voz"><i></i>Voz</a></li>
+    <li><a href="#escena"><i></i>La app en escena</a></li>
+    <li><a href="#aplicaciones"><i></i>Redes y anuncios</a></li>
+    <li><a href="#papeleria" class="r"><i></i>Papelería y objetos</a></li>
+    <li><a href="#movimiento" class="r"><i></i>Movimiento</a></li>
+    <li><a href="#archivos"><i></i>Archivos</a></li>
+  </ol>
+  <small>Manual de marca, versión 1<br>Noviembre de 2026</small>
+</aside>
+
+<main>
+<section class="portada" id="inicio">
+  <div class="arriba"><span>Manual de marca</span><span>Versión 1 · 2026</span></div>
+  <div class="medio">
+    <div><h1>Bitácora</h1>
+      <p class="lema">Opera con datos, <span>no con corazonadas.</span></p></div>
+    <img class="logo3d" src="logo-3d.svg" alt="Logo de Bitácora en 3D: tres velas japonesas, verde, roja y verde">
+  </div>
+  <svg class="curva" viewBox="0 0 1200 180" preserveAspectRatio="none" aria-hidden="true"><path d="M0 150 L80 138 L140 146 L210 120 L260 128 L330 96 L380 104 L450 80 L500 92 L560 70 L610 86 L680 58 L730 66 L800 44 L850 60 L920 36 L980 48 L1040 26 L1100 34 L1200 12" fill="none" stroke="#1fe08f" stroke-width="2"/></svg>
+  <div class="abajo"><div><b>Qué es</b>Journal de trading para MetaTrader 5</div><div><b>Para quién</b>Traders de prop firm y cuenta propia</div><div><b>Promesa</b>Ver cuánto te cuesta cada error</div></div>
+</section>
+
+<section class="sec" id="esencia">
+  <header><h2><small>1</small>Esencia</h2><p>Antes de colores y tipos: qué somos y cómo nos comportamos. Todo lo demás del manual sale de aquí.</p></header>
+  <div class="esen"><p class="mision">Ayudamos a cada trader a dejar de adivinar: medir lo que hace, entender lo que siente y corregir lo que le cuesta dinero.</p>
+    <div class="manifiesto"><p><b>Creemos</b> que el mercado no se controla, pero tú sí.</p><p><b>Creemos</b> que un mal día no define a un trader; un mal hábito repetido, sí.</p>
+      <p><b>Creemos</b> que los números no mienten, aunque a veces duelan.</p><p><b>Por eso</b> Bitácora te enseña tus datos todos los días, antes de que operes.</p></div></div>
+  <div class="g c3 pilares">
+    <div class="pilar"><i class="vela-mini" style="background:var(--verde)"></i><b>Datos</b><p class="muted">Cada afirmación se apoya en tus números. Nada de opiniones sin cifras detrás.</p></div>
+    <div class="pilar"><i class="vela-mini" style="background:var(--rojo)"></i><b>Honestidad</b><p class="muted">Mostramos la pérdida con la misma claridad que la ganancia. La vela roja también es parte del logo.</p></div>
+    <div class="pilar"><i class="vela-mini" style="background:var(--verde)"></i><b>Disciplina</b><p class="muted">El proceso pesa más que el resultado de un día. Premiamos la constancia, no la suerte.</p></div>
+  </div>
+  <div class="panel" style="margin-top:40px"><h3>Personalidad</h3><p class="muted" style="margin-bottom:10px">Dónde está Bitácora entre cada par de extremos.</p>
+    <div class="escala"><span>Serio</span><div class="riel"><i style="left:28%"></i></div><span>Juguetón</span></div>
+    <div class="escala"><span>Técnico</span><div class="riel"><i style="left:38%"></i></div><span>Cercano</span></div>
+    <div class="escala"><span>Calmado</span><div class="riel"><i style="left:22%"></i></div><span>Eufórico</span></div>
+    <div class="escala"><span>Exigente</span><div class="riel"><i style="left:40%"></i></div><span>Complaciente</span></div>
+    <div class="escala"><span>Moderno</span><div class="riel"><i style="left:20%"></i></div><span>Clásico</span></div>
+  </div>
+</section>
+
+<section class="sec" id="logo">
+  <header><h2><small>2</small>El logo</h2><p>Tres velas japonesas: subes, corriges y vuelves a subir. La roja va en el centro y es la más alta, porque de la pérdida es de donde más se aprende.</p></header>
+  <div class="g c3">
+    <div class="panel centro"><img src="logo-3d.svg" width="180" alt=""><p class="pie">3D: portadas, redes, anuncios y presentaciones.</p></div>
+    <div class="panel centro"><img src="icono-app.svg" width="160" alt=""><p class="pie">Ícono de app: escritorio, instalador y avatar.</p></div>
+    <div class="panel centro"><img src="logo-plano.svg" width="120" alt=""><p class="pie">Plano: interfaz, favicon y todo lo menor de 48 px.</p></div>
+  </div>
+  <div class="idea">
+    <div><svg viewBox="0 0 8 24"><rect x="3.6" y="2" width=".8" height="20" rx=".4" fill="#1fe08f"/><rect x="2" y="6" width="4" height="12" rx="1" fill="#1fe08f"/></svg><b>Subes</b><p class="muted">Empiezas a medir. Ves por primera vez tu win rate, tu expectativa y tus mejores horas.</p></div>
+    <div><svg viewBox="0 0 8 24"><rect x="3.6" y="0" width=".8" height="21" rx=".4" fill="#ff4668"/><rect x="2" y="3" width="4" height="14" rx="1" fill="#ff4668"/></svg><b>Corriges</b><p class="muted">La app te dice cuánto te costó cada error. Duele, y por eso es la vela más alta.</p></div>
+    <div><svg viewBox="0 0 8 24"><rect x="3.6" y="1" width=".8" height="22" rx=".4" fill="#1fe08f"/><rect x="2" y="5" width="4" height="14" rx="1" fill="#1fe08f"/></svg><b>Vuelves a subir</b><p class="muted">Con el error corregido, la curva sube con menos sobresaltos. Ese es el trader que queremos ver.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="construccion">
+  <header><h2><small>3</small>Construcción</h2><p>El símbolo se dibuja sobre una cuadrícula de 24 unidades. Las proporciones son fijas: si lo rehaces en otro programa, respeta estas medidas.</p></header>
+  <div class="g c2">
+    <div class="plano"><svg viewBox="0 0 240 240" aria-label="Plano del símbolo con sus medidas">
+      <g transform="translate(0 0) scale(10)">
+        <rect x="3" y="8" width="4" height="10" rx="1" fill="#1fe08f" fill-opacity=".9"/>
+        <rect x="10" y="4" width="4" height="12" rx="1" fill="#ff4668" fill-opacity=".9"/>
+        <rect x="17" y="6" width="4" height="12" rx="1" fill="#1fe08f" fill-opacity=".9"/>
+      </g>
+      <g stroke="#78aaff" stroke-width="1" fill="none" stroke-dasharray="3 3">
+        <line x1="0" y1="40" x2="240" y2="40"/><line x1="0" y1="180" x2="240" y2="180"/><line x1="30" y1="0" x2="30" y2="240"/><line x1="210" y1="0" x2="210" y2="240"/>
+      </g>
+      <g fill="#78aaff" font-size="9" font-family="Plex">
+        <text x="34" y="200">4 u</text><text x="104" y="36">alto 12 u</text><text x="72" y="214">separación 3 u</text><text x="214" y="112">24 u</text>
+      </g>
+    </svg></div>
+    <div class="panel quieto"><h3>Medidas</h3>
+      <ul class="medidas">
+        <li><b>Ancho de cada vela:</b> 4 unidades, con esquinas de 1 unidad.</li>
+        <li><b>Separación entre velas:</b> 3 unidades.</li>
+        <li><b>Alturas:</b> 10, 12 y 12 unidades. La roja empieza más arriba: es el pico del gráfico.</li>
+        <li><b>Base escalonada:</b> 18, 16 y 18. Las velas nunca se alinean abajo.</li>
+        <li><b>Área total:</b> 18 × 14 unidades dentro de un cuadro de 24.</li>
+      </ul>
+      <h3 style="margin-top:32px">Tamaño mínimo</h3>
+      <div class="tam">
+        <figure><img src="logo-plano.svg" width="16" alt=""><figcaption>16 px</figcaption></figure>
+        <figure><img src="logo-plano.svg" width="24" alt=""><figcaption>24 px</figcaption></figure>
+        <figure><img src="logo-plano.svg" width="32" alt=""><figcaption>32 px</figcaption></figure>
+        <figure><img src="logo-plano.svg" width="48" alt=""><figcaption>48 px</figcaption></figure>
+        <figure><img src="logo-3d.svg" width="72" alt=""><figcaption>3D desde 72 px</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="firma">
+  <header><h2><small>4</small>Versiones de la firma</h2><p>Símbolo y nombre juntos. La horizontal es la principal; la vertical, para formatos cuadrados. Alrededor deja siempre libre el alto de la vela roja.</p></header>
+  <div class="g c3">
+    <div class="panel centro"><span class="firma"><img src="logo-plano.svg" alt=""><b>Bitácora</b></span><p class="pie">Principal, sobre fondo oscuro</p></div>
+    <div class="panel centro claro"><span class="firma"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="4" height="10" rx="1" fill="#0fb873"/><rect x="10" y="4" width="4" height="12" rx="1" fill="#e5304f"/><rect x="17" y="6" width="4" height="12" rx="1" fill="#0fb873"/></svg><b>Bitácora</b></span><p class="pie">Sobre fondo claro: verde y rojo un poco más oscuros</p></div>
+    <div class="panel centro azul-f"><span class="firma"><svg viewBox="0 0 24 24" fill="#fff"><rect x="3" y="8" width="4" height="10" rx="1"/><rect x="10" y="4" width="4" height="12" rx="1" opacity=".7"/><rect x="17" y="6" width="4" height="12" rx="1"/></svg><b style="color:#fff">Bitácora</b></span><p class="pie">Una tinta, sobre color o fotos</p></div>
+    <div class="panel centro"><span class="firma v"><img src="logo-3d.svg" style="width:96px;height:96px" alt=""><b>Bitácora</b></span><p class="pie">Vertical, para formatos cuadrados</p></div>
+    <div class="panel centro"><div class="zona"><em style="top:12px;left:12px">x</em><em style="bottom:12px;right:12px">x</em><span class="firma"><img src="logo-plano.svg" alt=""><b>Bitácora</b></span></div><p class="pie">Espacio libre: x = alto de la vela roja</p></div>
+    <div class="panel centro"><span class="firma" style="gap:8px"><img src="logo-plano.svg" style="width:24px;height:24px" alt=""><b style="font-size:18px">Bitácora</b></span><p class="pie">Firma pequeña: 96 px de ancho como mínimo</p></div>
+  </div>
+  <h3 style="margin:48px 0 16px">Lo que no se hace</h3>
+  <div class="g c4">
+    <div class="panel centro"><img src="logo-plano.svg" width="72" style="filter:hue-rotate(140deg)" alt=""><p class="pie">Cambiar los colores: verde sube y rojo baja, siempre.</p></div>
+    <div class="panel centro"><img src="logo-plano.svg" width="72" style="transform:scaleX(1.7)" alt=""><p class="pie">Estirarlo o aplastarlo.</p></div>
+    <div class="panel centro"><img src="logo-plano.svg" width="72" style="transform:rotate(-18deg)" alt=""><p class="pie">Girarlo o inclinarlo.</p></div>
+    <div class="panel centro" style="background:repeating-linear-gradient(45deg,#ff4668 0 12px,#1fe08f 12px 24px)"><img src="logo-plano.svg" width="72" alt=""><p class="pie" style="color:#fff">Ponerlo sobre fondos recargados.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="color">
+  <header><h2><small>5</small>Color</h2><p>Una noche casi negra con un toque azul, como una terminal de trading. Verde y rojo están reservados para ganar y perder: nunca decoran.</p></header>
+  <div class="proporcion" aria-label="Proporción de uso de cada color">
+    <div style="flex:62;background:#04070d">Noche 62 %</div><div style="flex:20;background:#0c1420">Caja 20 %</div>
+    <div style="flex:9;background:#1fa2ff;color:#021627">Azul 9 %</div><div style="flex:5;background:#1fe08f;color:#04170e">5 %</div>
+    <div style="flex:3;background:#ff4668;color:#2a0410">3</div><div style="flex:1.4;background:#ffc247"></div>
+  </div>
+  <p class="pie">Proporción aproximada en pantalla. Si una vista se llena de verde o de rojo, algo está mal.</p>
+  <div class="g c4" style="margin-top:32px">
+    <div class="muestra"><i style="background:#04070d"></i><div><b>Noche</b><p>Fondo de todo.</p><code>#04070D · RGB 4 7 13</code></div></div>
+    <div class="muestra"><i style="background:#0c1420"></i><div><b>Caja</b><p>Tarjetas y paneles.</p><code>#0C1420 · RGB 12 20 32</code></div></div>
+    <div class="muestra"><i style="background:#1fa2ff"><span>7,4 : 1</span></i><div><b>Azul Bitácora</b><p>Acciones, enlaces y selección.</p><code>#1FA2FF · RGB 31 162 255</code></div></div>
+    <div class="muestra"><i style="background:#1fe08f"><span>11,6 : 1</span></i><div><b>Verde ganancia</b><p>Positivo, «puedes operar».</p><code>#1FE08F · RGB 31 224 143</code></div></div>
+    <div class="muestra"><i style="background:#ff4668"><span>6,1 : 1</span></i><div><b>Rojo pérdida</b><p>Negativo, «para por hoy».</p><code>#FF4668 · RGB 255 70 104</code></div></div>
+    <div class="muestra"><i style="background:#ffc247"><span>12,5 : 1</span></i><div><b>Ámbar</b><p>Precaución y recomendados.</p><code>#FFC247 · RGB 255 194 71</code></div></div>
+    <div class="muestra"><i style="background:#eef3f9"></i><div><b>Tinta</b><p>Texto principal, 18,1 : 1.</p><code>#EEF3F9</code></div></div>
+    <div class="muestra"><i style="background:#8b9ab0"></i><div><b>Tinta 2</b><p>Texto secundario, 7,1 : 1.</p><code>#8B9AB0</code></div></div>
+  </div>
+  <p class="pie">El número en cada muestra es su contraste sobre el fondo Noche. Todos superan el mínimo AA (4,5 : 1) para texto.</p>
+  <h3 style="margin:44px 0 14px">Degradados permitidos</h3>
+  <div class="g c3 degradados">
+    <div style="background:linear-gradient(135deg,#1fa2ff,#2962ff);color:#fff">Acción · azul a índigo</div>
+    <div style="background:linear-gradient(90deg,#1fe08f,#2fd6e6);color:#04170e">Progreso · verde a cian</div>
+    <div style="background:linear-gradient(90deg,#ffb020,#ffd36b);color:#1a1204">Recomendado · ámbar</div>
+  </div>
+</section>
+
+<section class="sec" id="recursos">
+  <header><h2><small>6</small>Recursos gráficos</h2><p>Fondos y texturas para portadas, anuncios y presentaciones. Úsalos de uno en uno: nunca dos en la misma pieza.</p></header>
+  <div class="g c2">
+    <div><div class="patron"></div><p class="pie">Patrón de velas al 16 %. Fondos de portada y de redes.</p></div>
+    <div><div class="resplandor"></div><p class="pie">Resplandor azul y verde. Detrás del logo 3D o de una cifra.</p></div>
+    <div><div class="rejilla-f"></div><p class="pie">Rejilla de gráfico desvanecida. Detrás de capturas de la app.</p></div>
+    <div><div class="vidrio"><div><p class="muted" style="font-size:12px">Resultado neto</p><p style="font:700 34px Grotesk;color:var(--verde)">+$2.453,33</p></div></div><p class="pie">Vidrio oscuro: el estilo de las tarjetas de la app, para destacar un dato.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="tipografia">
+  <header><h2><small>7</small>Tipografía</h2><p>Dos familias con trabajos distintos: una con carácter para lo que se lee de lejos y otra técnica para lo que se lee de cerca, sobre todo los números.</p></header>
+  <div class="g c2">
+    <div class="panel"><p class="especimen">Aa</p><h3 style="margin-top:18px">Space Grotesk</h3><p class="muted">Títulos, cifras grandes y el nombre de la marca. Pesos 500, 600 y 700, con el interletrado un 2 % más cerrado.</p>
+      <p class="abc" style="font-family:Grotesk">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ<br>abcdefghijklmnñopqrstuvwxyz 0123456789</p></div>
+    <div class="panel"><p class="especimen2">Aa</p><h3 style="margin-top:30px">IBM Plex Sans</h3><p class="muted">Textos, tablas, botones y datos. Pesos 400, 500 y 600. Números tabulares, para que las cifras queden alineadas en columna.</p>
+      <p class="abc">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ<br>abcdefghijklmnñopqrstuvwxyz 0123456789</p></div>
+  </div>
+  <div class="g c2" style="margin-top:18px">
+    <div class="panel"><h3>Escala</h3><table class="tabla-tipo">
+      <tr><td style="font:700 52px/1 Grotesk;letter-spacing:-.03em">+$2.453</td><td>Cifra principal · 52</td></tr>
+      <tr><td style="font:700 28px Grotesk">Curva de capital</td><td>Título · 28</td></tr>
+      <tr><td style="font:600 20px Grotesk">Trades recientes</td><td>Subtítulo · 20</td></tr>
+      <tr><td style="font:600 16px Plex">Resultado neto desde el inicio</td><td>Destacado · 16</td></tr>
+      <tr><td style="font:400 14.5px Plex">Bitácora lee tus operaciones de MT5.</td><td>Texto · 14,5</td></tr>
+      <tr><td style="font:400 12px Plex;color:var(--tinta2)">payoff 2,24 · profit factor 4,49</td><td>Detalle · 12</td></tr>
+    </table></div>
+    <div class="panel"><h3>Números que se alinean</h3><p class="muted" style="margin-bottom:16px">En tablas y tarjetas las cifras usan ancho fijo, para comparar de un vistazo. Formato colombiano: punto en los miles y coma en los decimales.</p>
+      <div class="cifras"><div style="color:var(--verde)">+$1.106,92</div><div style="color:var(--rojo)">−$51,48</div><div style="color:var(--verde)">+$124,06</div><div>66,7 %</div></div></div>
+  </div>
+</section>
+
+<section class="sec" id="iconos">
+  <header><h2><small>8</small>Iconos</h2><p>Línea de 1,7 px, extremos redondeados, sin relleno, sobre una cuadrícula de 24. Los mismos que usa el menú de la app.</p></header>
+  <div class="iconos">
+    <figure><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Panel</figure>
+    <figure><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Calendario</figure>
+    <figure><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Trades</figure>
+    <figure><svg viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M5 17a3 3 0 013-3h11"/></svg>Diario</figure>
+    <figure><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Analítica</figure>
+    <figure><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>Riesgo</figure>
+    <figure><svg viewBox="0 0 24 24"><path d="M9 11l2 2 4-4"/><rect x="4" y="3" width="16" height="18" rx="2"/></svg>Playbook</figure>
+    <figure><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 00-6 6c0 2.2 1.2 3.6 2.2 4.6.7.7.8 1.4.8 2.4h6c0-1 .1-1.7.8-2.4 1-1 2.2-2.4 2.2-4.6a6 6 0 00-6-6z"/><path d="M9.5 19h5M10.5 22h3"/></svg>Psicotrading</figure>
+    <figure><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Mentor</figure>
+    <figure><svg viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 5-7"/><path d="M17 7h4v4"/></svg>Macro</figure>
+  </div>
+</section>
+
+<section class="sec" id="interfaz">
+  <header><h2><small>9</small>Interfaz</h2><p>Las piezas que más se repiten en la app. Tarjetas oscuras con borde fino, esquinas de 14 px y color solo donde hay un dato que lo pide.</p></header>
+  <div class="g" style="gap:14px">
+    <div class="ui-dia"><span class="luz"></span><b>Para por hoy</b><span class="muted">Ya hiciste 2 de 2 trades</span></div>
+    <div class="ui-dia ok"><span class="luz"></span><b>Puedes operar</b><span class="muted">Te quedan 2 trades y $480 de margen diario</span></div>
+  </div>
+  <div class="g c3" style="margin-top:18px">
+    <div class="ui-kpi"><small>Resultado neto desde el inicio</small><b style="color:var(--verde)">+$179,50</b><small>1,8 % sobre 10.000 · 3 trades</small></div>
+    <div class="ui-kpi"><small>Win rate</small><b>66,7 %</b><small>2 de 3 trades</small></div>
+    <div class="ui-kpi"><small>Máximo drawdown</small><b style="color:var(--rojo)">−0,5 %</b><small>−$51,48</small></div>
+  </div>
+  <div class="g c2" style="margin-top:18px">
+    <div class="panel"><h3>Trades</h3>
+      <div class="ui-trade"><div><b>XAUUSD</b><em>compra</em><div class="pie" style="margin:2px 0 0">19/11 01:04 · nota A</div></div><span class="v">+$106,92</span></div>
+      <div class="ui-trade p"><div><b>EURUSD</b><em>compra</em><div class="pie" style="margin:2px 0 0">18/11 08:18 · nota A</div></div><span class="v">−$51,48</span></div></div>
+    <div class="panel"><h3>Botones y etiquetas</h3>
+      <div class="botones"><a class="b pri" href="#interfaz">Guardar trade</a><a class="b sec" href="#interfaz">Sincronizar</a><a class="b peligro" href="#interfaz">Eliminar cuenta</a></div>
+      <div class="botones" style="margin-top:18px">
+        <span class="chip" style="background:rgba(31,224,143,.14);color:var(--verde)">Siguió el plan</span>
+        <span class="chip" style="background:rgba(255,70,104,.14);color:var(--rojo)">Revenge</span>
+        <span class="chip" style="background:rgba(255,194,71,.16);color:var(--ambar)">★ Recomendado</span>
+        <span class="chip" style="background:var(--pizarra);color:var(--tinta2)">Asia</span></div>
+      <p class="pie">Un solo botón azul por pantalla: la acción principal. Las destructivas van en rojo y nunca son la principal.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="graficos">
+  <header><h2><small>10</small>Gráficos</h2><p>Se leen en un segundo: verde arriba, rojo abajo, rejilla casi invisible y el último valor marcado con un punto.</p></header>
+  <div class="g c2">
+    <svg class="graf" viewBox="0 0 520 240" role="img" aria-label="Curva de capital de ejemplo">
+      <defs><linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1fe08f" stop-opacity=".28"/><stop offset="1" stop-color="#1fe08f" stop-opacity="0"/></linearGradient></defs>
+      <g stroke="rgba(120,170,255,.08)"><line x1="20" y1="50" x2="500" y2="50"/><line x1="20" y1="100" x2="500" y2="100"/><line x1="20" y1="150" x2="500" y2="150"/><line x1="20" y1="200" x2="500" y2="200"/></g>
+      <line x1="20" y1="160" x2="500" y2="160" stroke="#8b9ab0" stroke-dasharray="4 4" opacity=".5"/>
+      <path d="M20 170 L70 160 L110 175 L160 140 L200 150 L250 118 L290 128 L340 96 L380 110 L430 76 L470 84 L500 60 L500 220 L20 220 Z" fill="url(#ar)"/>
+      <path d="M20 170 L70 160 L110 175 L160 140 L200 150 L250 118 L290 128 L340 96 L380 110 L430 76 L470 84 L500 60" fill="none" stroke="#1fe08f" stroke-width="2.2"/>
+      <circle cx="500" cy="60" r="4.5" fill="#1fe08f"/><text x="30" y="30" fill="#eef3f9" font-family="Grotesk" font-size="15" font-weight="700">Curva de capital</text>
+    </svg>
+    <svg class="graf" viewBox="0 0 520 240" role="img" aria-label="Resultado por día de ejemplo">
+      <g stroke="rgba(120,170,255,.08)"><line x1="20" y1="60" x2="500" y2="60"/><line x1="20" y1="180" x2="500" y2="180"/></g>
+      <line x1="20" y1="130" x2="500" y2="130" stroke="#8b9ab0" opacity=".4"/>
+      <g fill="#1fe08f"><rect x="40" y="90" width="34" height="40" rx="3"/><rect x="140" y="70" width="34" height="60" rx="3"/><rect x="240" y="110" width="34" height="20" rx="3"/><rect x="390" y="60" width="34" height="70" rx="3"/></g>
+      <g fill="#ff4668"><rect x="90" y="130" width="34" height="30" rx="3"/><rect x="190" y="130" width="34" height="55" rx="3"/><rect x="290" y="130" width="34" height="18" rx="3"/><rect x="340" y="130" width="34" height="40" rx="3"/><rect x="440" y="130" width="34" height="25" rx="3"/></g>
+      <text x="30" y="34" fill="#eef3f9" font-family="Grotesk" font-size="15" font-weight="700">Resultado por día</text>
+    </svg>
+  </div>
+  <div class="g c3" style="margin-top:18px">
+    <div class="panel quieto"><h3>Verde y rojo</h3><p class="muted">Solo para ganancia y pérdida. Para comparar series que no son dinero, usa azul y cian.</p></div>
+    <div class="panel quieto"><h3>Rejilla mínima</h3><p class="muted">Líneas al 8 % de opacidad. La referencia de cero o de capital inicial va punteada.</p></div>
+    <div class="panel quieto"><h3>Sin adornos</h3><p class="muted">Nada de 3D, sombras ni leyendas que tapen. El número importante va escrito, no escondido.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="voz">
+  <header><h2><small>11</small>Voz</h2><p>Hablamos como un buen mentor de trading: directo, honesto, de tú a tú y sin prometer dinero fácil.</p></header>
+  <p class="lema-g">Opera con datos, no con corazonadas.</p>
+  <div class="g c3 lemas">
+    <div><p>No es la estrategia, eres tú.</p><p class="pie">Psicotrading</p></div>
+    <div><p>Cada error tiene un precio. Aquí lo ves.</p><p class="pie">Anuncios</p></div>
+    <div><p>El trading no es un casino: son probabilidades.</p><p class="pie">Matemáticas y estadística</p></div>
+  </div>
+  <div class="g c2" style="margin-top:44px">
+    <div class="panel"><h3>Así hablamos</h3>
+      <table class="vocab"><tr><th>Decimos</th><th>No decimos</th></tr>
+        <tr><td>Para por hoy</td><td>Has superado el límite configurado</td></tr>
+        <tr><td>Te costó $312 operar fuera de horario</td><td>Detectamos anomalías en tu operativa</td></tr>
+        <tr><td>Gestión del riesgo</td><td>Gana dinero rápido</td></tr>
+        <tr><td>Tu ventaja, con tus números</td><td>Señales ganadoras garantizadas</td></tr>
+      </table></div>
+    <div class="panel"><h3>Microtextos de la app</h3>
+      <div class="micro">
+        <div><small>Error</small>No pude hablar con MT5. Abre la terminal y pulsa «Sincronizar».</div>
+        <div><small>Vacío</small>Aún no hay trades este mes. Cuando operes, aparecerán aquí solos.</div>
+        <div><small>Confirmación</small>Guardado. Este trade ya cuenta para tu disciplina.</div>
+        <div><small>Logro</small>5 días seguidos sin alertas. Así se construye una cuenta fondeada.</div>
+      </div></div>
+  </div>
+</section>
+
+<section class="sec" id="escena">
+  <header><h2><small>12</small>La app en escena</h2><p>Cómo mostrar Bitácora en la web, en anuncios y en videos: capturas reales de la demo, nunca pantallas inventadas.</p></header>
+  <div class="escena">
+    <div class="portatil"><div class="pantalla"><img src="img/app-panel.png" alt="Panel de Bitácora con datos de prueba"></div><div class="base"></div></div>
+    <div class="flotan izq"><img src="img/app-calendario.png" alt="Calendario de Bitácora"></div>
+    <div class="flotan der"><img src="img/app-analitica.png" alt="Analítica de Bitácora"></div>
+  </div>
+  <div class="g c3" style="margin-top:22px">
+    <div class="panel quieto"><h3>Siempre datos de prueba</h3><p class="muted">Las capturas salen de la demo, con el aviso «Datos de prueba». Nunca muestres cuentas ni resultados reales de un cliente.</p></div>
+    <div class="panel quieto"><h3>Una pantalla protagonista</h3><p class="muted">El Panel va al centro. Calendario y Analítica acompañan, más pequeñas e inclinadas apenas 3 o 4 grados.</p></div>
+    <div class="panel quieto"><h3>Fondo con luz</h3><p class="muted">La pantalla se apoya sobre el resplandor azul de los recursos gráficos, nunca sobre un fondo plano.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="aplicaciones">
+  <header><h2><small>13</small>Redes y anuncios</h2><p>Piezas para Instagram, Facebook y YouTube. En anuncios, una sola idea por pieza: un número o una frase, nunca las dos peleando.</p></header>
+  <h3 style="margin-bottom:14px">Anuncios de Meta</h3>
+  <div class="g c3" style="margin-bottom:36px">
+    <div class="anuncio"><div class="cab"><img src="icono-app.svg" alt=""><div><b>Bitácora</b><small>Publicidad</small></div></div>
+      <div class="arte"><p class="t">Tu win rate no miente.<br>Tus emociones, sí.</p><img class="pz" src="img/app-panel.png" alt=""></div>
+      <div class="pie-a"><div><b>Journal para MT5</b><span>Plan gratis, sin tarjeta</span></div><a href="#aplicaciones">Más información</a></div></div>
+    <div class="anuncio"><div class="cab"><img src="icono-app.svg" alt=""><div><b>Bitácora</b><small>Publicidad</small></div></div>
+      <div class="arte r"><div><p style="font:700 72px/1 Grotesk;color:var(--rojo);letter-spacing:-.04em">−$1.795</p><p class="t" style="font-size:23px;margin-top:10px">Lo que le costaron sus errores a un trader en 3 meses.</p></div><p class="muted" style="font-size:13px">¿Cuánto te cuestan los tuyos?</p></div>
+      <div class="pie-a"><div><b>Mide tus errores</b><span>Conecta MT5 en 2 minutos</span></div><a href="#aplicaciones">Descargar</a></div></div>
+    <div class="anuncio"><div class="cab"><img src="icono-app.svg" alt=""><div><b>Bitácora</b><small>Publicidad</small></div></div>
+      <div class="arte" style="background:linear-gradient(180deg,#1a1306,#04070d 70%)"><span class="chip" style="background:var(--ambar);color:#1a1204;align-self:flex-start">Psicotrading</span><p class="t">No es la estrategia.<br>Eres tú.</p><p class="muted" style="font-size:13px">24 lecciones para operar con la cabeza fría.</p></div>
+      <div class="pie-a"><div><b>Aprende psicotrading</b><span>Incluido en Bitácora</span></div><a href="#aplicaciones">Ver lecciones</a></div></div>
+  </div>
+  <h3 style="margin-bottom:14px">Carrusel educativo</h3>
+  <div class="carrusel" style="margin-bottom:36px">
+    <div><span class="firma" style="gap:6px"><img src="logo-plano.svg" style="width:20px;height:20px" alt=""><b style="font-size:15px">Bitácora</b></span><p class="t">3 números que todo trader debería saber de memoria</p><p class="n">1 de 3, desliza</p></div>
+    <div><p class="t">Expectativa, win rate y máximo drawdown</p><p class="muted" style="font-size:13px">Si no sabes los tuyos, estás operando a ciegas.</p><p class="n">2 de 3</p></div>
+    <div><p class="t" style="color:var(--verde)">Bitácora te los calcula solo, cada día.</p><p class="muted" style="font-size:13px">Enlace en la bio.</p><p class="n">3 de 3</p></div>
+  </div>
+  <h3 style="margin-bottom:14px">Publicaciones e historias</h3>
+  <div class="g c3">
+    <div><div class="post"><span class="firma" style="gap:8px"><img src="logo-plano.svg" style="width:26px;height:26px" alt=""><b style="font-size:18px">Bitácora</b></span>
+      <div><p class="n">$312</p><p class="t">Lo que te costó operar fuera de horario este mes.</p></div><p class="muted" style="font-size:13px">Descúbrelo con tus datos.</p></div><p class="pie">Publicación de Instagram, 1:1</p></div>
+    <div><div class="historia"><span class="firma" style="gap:8px"><img src="logo-plano.svg" style="width:24px;height:24px" alt=""><b style="font-size:17px">Bitácora</b></span>
+      <div><span class="chip" style="background:var(--ambar);color:#1a1204">Psicotrading · Cap. 01</span><p class="t" style="margin-top:12px">No es la estrategia, eres tú.</p></div>
+      <p class="muted" style="font-size:13px">Nuevo capítulo en la app.</p></div><p class="pie">Historia, 9:16</p></div>
+    <div style="display:grid;gap:18px;align-content:start">
+      <div><div class="miniatura"><span class="cap">Módulo 3 · Cap. 04</span><img src="logo-3d.svg" width="110" alt=""><p class="t">Las rachas<br>son normales</p></div><p class="pie">Miniatura de video, 16:9</p></div>
+      <div><div class="tarjeta-v"><span class="firma" style="gap:8px"><img src="logo-plano.svg" style="width:24px;height:24px" alt=""><b style="font-size:17px">Bitácora</b></span>
+        <div><b>Manuhel</b><p class="muted" style="font-size:12.5px">Fundador · Journal de trading para MT5</p></div></div><p class="pie">Tarjeta de presentación</p></div>
+    </div>
+  </div>
+  <div class="escritorio" style="margin-top:18px"><div class="acceso"><img src="icono-app.svg" alt=""><span>Bitácora</span></div>
+    <div class="barra"><span></span><span></span><img src="icono-app.svg" alt=""><span></span><span></span></div></div>
+  <p class="pie">El ícono de app en el escritorio y en la barra de tareas de Windows.</p>
+</section>
+
+<section class="sec" id="papeleria">
+  <header><h2><small>14</small>Papelería y objetos</h2><p>La marca fuera de la pantalla. Fondo oscuro siempre que se pueda; sobre blanco, la firma para fondo claro.</p></header>
+  <div class="banner-yt"><span class="firma"><img src="logo-plano.svg" alt=""><b>Bitácora</b></span><p class="t">Opera con datos, no con corazonadas.</p><img src="logo-3d.svg" style="height:120%" alt=""></div>
+  <p class="pie">Portada de canal de YouTube y Facebook.</p>
+  <div class="g c2" style="margin-top:24px">
+    <div><div class="diapo"><span class="firma" style="gap:8px"><img src="logo-plano.svg" style="width:22px;height:22px" alt=""><b style="font-size:16px">Bitácora</b></span>
+      <p class="t">Cómo pasar tu challenge sin romper reglas</p><p class="muted" style="font-size:12px">Webinar, noviembre de 2026</p><img class="l3" src="logo-3d.svg" alt=""></div><p class="pie">Portada de presentación o webinar.</p></div>
+    <div><div class="correo"><p>Hola, Andrés:</p><p>Tu licencia Pro ya está activa. Ábrela desde Ajustes, en Suscripción.</p>
+      <div class="firma-c"><img src="icono-app.svg" alt=""><div><b>Manuhel</b><span>Fundador de Bitácora · Journal de trading para MT5</span></div></div></div><p class="pie">Firma de correo.</p></div>
+  </div>
+  <div class="g c2" style="margin-top:24px">
+    <div class="panel taza"><div class="cuerpo"><img src="logo-plano.svg" alt=""></div><p class="pie">Taza: el símbolo solo, centrado.</p></div>
+    <div class="panel buzo"><div class="cuerpo"><span class="cuello"></span><span class="firma"><img src="logo-plano.svg" alt=""><b>Bitácora</b></span></div><p class="pie">Buzo: firma pequeña a la altura del pecho.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="movimiento">
+  <header><h2><small>15</small>Movimiento</h2><p>La app se mueve poco y con calma, como un trader que no se precipita.</p></header>
+  <div class="panel mov">
+    <div><b>Entrada de pantallas</b><span>Fundido con un ascenso de 12 px, en 0,75 s. Los bloques entran escalonados, uno cada 0,09 s.</span></div>
+    <div><b>Respuesta a una acción</b><span>Entre 0,15 y 0,3 s: abrir un menú, guardar o cambiar de sección.</span></div>
+    <div><b>Datos</b><span>Las barras y las curvas se dibujan una sola vez al abrir. Nunca en bucle.</span></div>
+    <div><b>Alertas</b><span>Solo el semáforo en rojo late, despacio, cada 2,4 s.</span></div>
+    <div><b>Movimiento reducido</b><span>Si el sistema pide menos movimiento, todo aparece sin animación.</span></div>
+  </div>
+</section>
+
+<section class="sec" id="archivos" style="border-bottom:0">
+  <header><h2><small>16</small>Archivos</h2><p>Todo está en <code>C:\Proyectos\Bitácora\docs\marca\</code>. Los PNG tienen fondo transparente.</p></header>
+  <div class="descargas">
+    <a href="logo-3d.svg"><img src="logo-3d.svg" alt=""><b>Logo 3D</b><span>SVG</span></a>
+    <a href="logo-3d-1024.png"><img src="logo-3d-512.png" alt=""><b>Logo 3D</b><span>PNG 512 y 1024</span></a>
+    <a href="icono-app.svg"><img src="icono-app.svg" alt=""><b>Ícono de app</b><span>SVG, PNG 512 y 1024</span></a>
+    <a href="logo-plano.svg"><img src="logo-plano.svg" alt=""><b>Logo plano</b><span>SVG y PNG 512</span></a>
+  </div>
+</section>
+</main>
+</div>
+<script>
+  /* El índice ilumina la vela de la sección que estás leyendo. */
+  const enlaces = [...document.querySelectorAll(".indice a")];
+  const mirar = new IntersectionObserver((xs) => xs.forEach((x) => {
+    if (x.isIntersecting) enlaces.forEach((a) => a.classList.toggle("on", a.getAttribute("href") === "#" + x.target.id));
+  }), { rootMargin: "-40% 0px -55% 0px" });
+  document.querySelectorAll(".sec").forEach((s) => mirar.observe(s));
+</script>
+</body></html>
